@@ -1,0 +1,17 @@
+{
+    "name": "de-web/proxy-credit",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "DeWeb\\ProxyCredit\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yahir Eduardo Bravo",
+            "email": "yahir.eduardo.bravo@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {}
+}
