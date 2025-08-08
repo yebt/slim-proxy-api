@@ -10,6 +10,16 @@ use Slim\Psr7\Response;
 
 return function (App $app) {
 
+    $app->get('/proxy/', function (Request $req, Response $res, array $args) {
+
+        $res->getBody()->write(json_encode([
+            'API' => 'proxy',
+            'VERSION' => '2.1.3'
+        ], JSON_UNESCAPED_UNICODE));
+        return $res
+            ->withHeader('Content-type', 'application/json');
+    });
+
     // Proxy genérico: recibe cualquier ruta y la envía a example.com
     $app->any('/proxy/{uri:.*}', function (Request $request, Response $response, array $args) {
         if (!env("WRAP_URL", false)) {
