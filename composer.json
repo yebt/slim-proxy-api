@@ -1,9 +1,10 @@
 {
     "name": "de-web/proxy-credit",
     "license": "MIT",
+    "type": "project",
     "autoload": {
         "psr-4": {
-            "DeWeb\\ProxyCredit\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
@@ -17,5 +18,9 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^7.3"
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "test": "phpunit"
     }
 }
