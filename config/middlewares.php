@@ -2,17 +2,23 @@
 
 declare(strict_types=1);
 
+use Middlewares\TrailingSlash;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Slim\Exception\HttpNotFoundException;
 
 return function (App $app) {
 
+
     /**
      * The routing middleware should be added earlier than the ErrorMiddleware
      * Otherwise exceptions thrown from it will not be handled by the middleware
      */
     $app->addRoutingMiddleware();
+
+    $app->addMiddleware(
+        new Middlewares\TrailingSlash()
+    );
 
     /**
      * Add Error Middleware
@@ -52,5 +58,5 @@ return function (App $app) {
         HttpNotFoundException::class,
         $customNotFoundHandler
     );
-};
 
+};
