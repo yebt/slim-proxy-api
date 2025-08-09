@@ -10,6 +10,7 @@ use Slim\Psr7\Response;
 
 return function (App $app) {
 
+    // base ednpoint
     $app->get('/proxy', function (Request $req, Response $res, array $args) {
 
         $res->getBody()->write(json_encode([
