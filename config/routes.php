@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 use GuzzleHttp\Client;
 use Slim\App;
-use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 return function (App $app) {
-
     // base ednpoint
     $app->get('/proxy', function (Request $req, Response $res, array $args) {
 
         $res->getBody()->write(json_encode([
             'API' => 'proxy',
-            'VERSION' => '2.1.3'
+            'VERSION' => '2.1.3',
         ], JSON_UNESCAPED_UNICODE));
+
         return $res
             ->withHeader('Content-type', 'application/json');
     });
 
     // Proxy genérico: recibe cualquier ruta y la envía a example.com
     $app->any('/proxy/{uri:.*}', function (Request $request, Response $response, array $args) {
-        if (!env("WRAP_URL", false)) {
+        if (! env('WRAP_URL', false)) {
             $response->getBody()->write(
                 json_encode([
-                    'message' => 'Not WRAP_URL ALLOWED'
+                    'message' => 'Not WRAP_URL ALLOWED',
                 ], JSON_UNESCAPED_UNICODE)
             );
-            return $response->withStatus(501)->withHeader('Content-type', "application/json");
+
+            return $response->withStatus(501)->withHeader('Content-type', 'application/json');
         }
 
         $client = new Client([
@@ -39,14 +39,14 @@ return function (App $app) {
 
         // Reconstruir URL destino
         $uriPath = $args['uri'];
-        $query   = $request->getUri()->getQuery();
+        $query = $request->getUri()->getQuery();
         $targetBase = env('WRAP_URL');
-        $targetUrl  = rtrim($targetBase, '/') . '/' . $uriPath . ($query ? "?$query" : '');
+        $targetUrl = rtrim($targetBase, '/').'/'.$uriPath.($query ? "?$query" : '');
 
         // Preparar opciones para Guzzle
         $options = [
             'headers' => $request->getHeaders(),
-            'body'    => (string) $request->getBody(),
+            'body' => (string) $request->getBody(),
         ];
 
         // Enviar petición al servidor destino
@@ -68,7 +68,7 @@ return function (App $app) {
         //     ARRAY_FILTER_USE_KEY // use the keys
         // );
         foreach ($res->getHeaders() as $name => $values) {
-            if (!is_string($name)) {
+            if (! is_string($name)) {
                 continue;
             }
             if (in_array(strtolower($name), $headersToSkip)) {

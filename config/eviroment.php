@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-# -------------------------------------------------
+// -------------------------------------------------
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
 $dotenv->load();
 
 function env(string $key, mixed $default = null)
 {
 
     $val = $_ENV[$key] ?? $default;
+
     return match ($val) {
         'false' => false,
         'true' => true,
@@ -18,4 +19,3 @@ function env(string $key, mixed $default = null)
         default => $val ?? null
     };
 }
-
